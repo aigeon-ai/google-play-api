@@ -1,48 +1,57 @@
-```markdown
 # Aigeon AI Google Play API
 
-## Project Overview
+## Overview
 
-The **Aigeon AI Google Play API** is a Python-based server application designed to facilitate seamless interaction with the Google Play Store using the SerpApi service. This project leverages the FastMCP framework to provide an efficient and scalable solution for querying Google Play Store data, enabling users to search for apps based on various parameters.
+The `aigeon-ai.google-play-api` is a Python-based server application designed to interface with the Google Play Store using the SerpApi service. This application allows users to perform detailed searches on the Google Play Store, retrieving information about apps based on various parameters such as search queries, categories, device types, and more.
 
-## Features Overview
+## Features
 
-- **Integration with SerpApi**: Utilizes the SerpApi service to perform searches on the Google Play Store.
-- **Flexible Query Parameters**: Supports a wide range of search parameters, allowing for detailed and specific queries.
-- **Pagination Support**: Handles pagination through tokens to navigate through search results efficiently.
-- **Output Customization**: Offers options to receive results in either JSON or HTML format.
-- **Environment Configuration**: Loads configuration settings from environment variables for secure and dynamic setup.
+- **Search Functionality**: Perform comprehensive searches on the Google Play Store using a variety of parameters.
+- **Flexible Query Options**: Supports queries by search term, app category, device type, and more.
+- **Pagination Support**: Easily navigate through paginated results using tokens.
+- **Output Formats**: Choose between JSON and HTML output formats for search results.
+- **Asynchronous Execution**: Optionally execute searches asynchronously for improved performance.
+- **Cache Control**: Control caching behavior to ensure fresh data retrieval.
 
 ## Main Features and Functionality
 
-### 1. Search Functionality
+The core functionality of this application revolves around the `search_google_play` function, which is a tool provided by the FastMCP framework. This function interfaces with the SerpApi to perform searches on the Google Play Store. It constructs a request payload based on the provided parameters and sends a GET request to the SerpApi endpoint.
 
-The core functionality of this application is to perform searches on the Google Play Store using the `search_google_play` function. This function allows users to specify various parameters to tailor their search queries, such as:
+### Key Features:
 
-- **Search Query (`q`)**: A string parameter to specify the search term.
-- **Country and Language Codes (`gl`, `hl`)**: Two-letter codes to define the geographical and language preferences for the search.
-- **App Category (`apps_category`)**: Allows filtering of apps based on specific categories.
-- **Device Type (`store_device`)**: Filters results based on the type of device, such as phone, tablet, or TV.
-- **Age Range (`age`)**: Applicable when filtering apps within the FAMILY category.
-- **Pagination Tokens (`next_page_token`, `section_page_token`, `see_more_token`)**: Tokens to manage and navigate through paginated results.
-- **Chart Type (`chart`)**: Specifies the type of chart, such as top-selling free apps.
-- **Cache Control (`no_cache`)**: Option to disable cached results for fresh data retrieval.
-- **Async Mode (`aasync`)**: Enables asynchronous operation for improved performance.
-- **Output Format (`output`)**: Determines the format of the search results, either JSON or HTML.
+- **Search Query (`q`)**: Allows users to search for apps using specific keywords.
+- **Geolocation (`gl`)**: Specify the country code to tailor search results to a particular region.
+- **Language (`hl`)**: Define the language code to receive results in a specific language.
+- **App Category (`apps_category`)**: Filter results by app category.
+- **Device Type (`store_device`)**: Specify the type of device (e.g., phone, tablet) to filter results accordingly.
+- **Age Range (`age`)**: Filter results by age range, applicable when searching within the FAMILY category.
+- **Pagination Tokens**: Utilize `next_page_token` and `section_page_token` for navigating through paginated results.
+- **Chart Type (`chart`)**: Specify chart types like 'topselling_free' to filter results.
+- **Caching and Async Options**: Control caching with `no_cache` and enable asynchronous execution with `aasync`.
+- **ZeroTrace Mode**: An enterprise feature that enhances privacy during searches.
+- **Output Format (`output`)**: Choose between 'json' or 'html' for the format of the search results.
 
-### 2. Server Initialization
-
-The application initializes a FastMCP server instance named `google-play-server`, which listens for incoming requests and processes them using the defined search functionality. The server can be executed with a specified port, defaulting to port 9997 if not provided.
-
-## Main Functions Description
+## Main Function Description
 
 ### `search_google_play`
 
-This function is the primary tool for interacting with the Google Play Store. It constructs a request payload based on the provided parameters, ensuring only non-null values are included. The function then sends a GET request to the SerpApi endpoint and returns the search results in the specified format. The function is annotated with detailed descriptions for each parameter, ensuring clarity and ease of use.
+This function performs a search on the Google Play Store using the SerpApi service. It accepts a variety of parameters to customize the search and returns the results in the specified format.
 
-By leveraging this function, users can perform comprehensive searches on the Google Play Store, tailored to their specific needs and preferences, while benefiting from the robust infrastructure provided by the FastMCP framework and SerpApi service.
+#### Parameters:
 
----
+- **`q`**: *(Optional)* A string representing the search query. Cannot be used with `apps_category` or `store_device`.
+- **`gl`**: *(Optional)* A two-letter country code (e.g., 'us', 'uk'). Defaults to 'us'.
+- **`hl`**: *(Optional)* A two-letter language code (e.g., 'en', 'es'). Defaults to 'en'.
+- **`apps_category`**: *(Optional)* A string specifying the app store category. Cannot be used with `q` or `store_device`.
+- **`store_device`**: *(Optional)* A string specifying the device type (e.g., 'phone', 'tablet'). Cannot be used with `q` or `apps_category`.
+- **`age`**: *(Optional)* A string specifying the age range, applicable only with `apps_category=FAMILY`.
+- **`next_page_token`**: *(Optional)* A string token for pagination to retrieve the next page of results.
+- **`section_page_token`**: *(Optional)* A string token for pagination to retrieve a specific section of results.
+- **`chart`**: *(Optional)* A string specifying the chart type (e.g., 'topselling_free').
+- **`see_more_token`**: *(Optional)* A string token for pagination to see more results.
+- **`no_cache`**: *(Optional)* A boolean to disallow cached results.
+- **`aasync`**: *(Optional)* A boolean to enable asynchronous mode.
+- **`zero_trace`**: *(Optional)* A boolean for enterprise use to enable ZeroTrace mode.
+- **`output`**: *(Optional)* A string specifying the output format: 'json' or 'html'.
 
-This README provides a comprehensive overview of the Aigeon AI Google Play API project, detailing its features, functionality, and usage. For further information, please refer to the source code and documentation.
-```
+This function constructs a request payload, filters out any parameters with `None` values, and sends a GET request to the SerpApi endpoint. The response is returned in the specified output format.
